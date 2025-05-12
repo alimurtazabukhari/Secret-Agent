@@ -1,0 +1,57 @@
+import java.util.Scanner;
+
+public class SecretEncryption {
+
+    public static int encryptNumber(int n) {
+        int merged = 0;
+        int digits = countDigits(n);
+        int divisor = (int) Math.pow(10, digits - 1);
+
+        while (divisor > 0) {
+            int digit = n / divisor;
+            int square = digit * digit;
+            merged = appendToLeft(merged, square);
+            n %= divisor;
+            divisor /= 10;
+        }
+
+        return reverseNumber(merged);
+    }
+
+    public static int countDigits(int n) {
+        int count = 0;
+        while (n > 0) {
+            count++;
+            n /= 10;
+        }
+        return count;
+    }
+
+    public static int appendToLeft(int num, int append) {
+        int factor = 1;
+        int temp = append;
+        if (temp == 0) factor = 10;
+        while (temp > 0) {
+            factor *= 10;
+            temp /= 10;
+        }
+        return num * factor + append;
+    }
+
+    public static int reverseNumber(int n) {
+        int reversed = 0;
+        while (n > 0) {
+            reversed = reversed * 10 + (n % 10);
+            n /= 10;
+        }
+        return reversed;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int input = scanner.nextInt();
+        int encrypted = encryptNumber(input);
+        System.out.println("Encrypted code is: " + encrypted);
+    }
+}
